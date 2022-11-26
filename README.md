@@ -17,5 +17,5 @@
 
 ### Технологический стек:
 
-`Python`, `Jupyter notebook`, `pandas`, `numpy`, `matplotlib`, `seaborn`, `sklearn`, `tensorflow`, `keras`, `HTML`, `CSS`, `Flask`, `Git`
+`Python`, `Jupyter notebook`, `pandas`, `numpy`, `matplotlib`, `seaborn`, `sklearn`, `tensorflow`, `keras`, `pickle`, `HTML`, `CSS`, `Flask`, `Git`
 
