@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<style>
+    form {
+        margin: auto;
+        width: 35%;
+    }
+    .result {
+        margin: auto;
+        width: 35%;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<head>
+    <title>Прогноз параметров сварного шва</title>
+</head>
+
+<form action="{{url_for('main')}}" method="POST">
+    <fieldset>
+        <legend>Технические параметры сварки</legend>
+        IW:
+        <input type="text" name="IW" id="IW" required>
+
+        <input type="submit">
+    </fieldset>
+</form>
+
+<div class="result">
+{% if result %}
+    <p>Прогнозируемые размеры шва:</p>
+    <p>{{result}}</p>
+{% endif %}
+</div>
