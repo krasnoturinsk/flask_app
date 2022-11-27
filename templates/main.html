@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <style>
     form {
-        margin: auto;
+        margin: 50px auto;
         width: 35%;
     }
+    form legend {
+        margin: 20px auto;
+    }
     .result {
-        margin: auto;
+        margin: 50px auto;
         width: 35%;
         border: 1px solid #ccc;
     }
@@ -17,17 +20,31 @@
 
 <form action="{{url_for('main')}}" method="POST">
     <fieldset>
-        <legend>Технические параметры сварки</legend>
-        IW:
-        <input type="text" name="IW" id="IW" required>
+        <p>
+            <legend>Технические параметры сварки</legend>
+            IW:
+            <input type="text" name="IW" id="IW" required>
+        </p>
+        <p>
+            IF:
+            <input type="text" name="IF" id="IF" required>
+        </p>
+        <p>
+            VW:
+            <input type="text" name="VW" id="VW" required>
+        </p>
+        <p>
+            FP:
+            <input type="text" name="FP" id="FP" required>
+        </p>
 
         <input type="submit">
     </fieldset>
 </form>
 
-<div class="result">
 {% if result %}
+<div class="result">
     <p>Прогнозируемые размеры шва:</p>
     <p>{{result}}</p>
-{% endif %}
 </div>
+{% endif %}
