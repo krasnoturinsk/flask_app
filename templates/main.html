@@ -20,25 +20,39 @@
 
 <form action="{{url_for('main')}}" method="POST">
     <fieldset>
+        <legend> Технические параметры сварки </legend>
         <p>
-            <legend>Технические параметры сварки</legend>
-            IW:
-            <input type="text" name="IW" id="IW" required>
+            <label for="IW">Величина сварочного тока (IW):</label> <b><span id="iw_value">45</span></b><br>
+            <input type="range" name="IW" id="IW" value="45" min="40" max="50" step="1" list="iw_values" required
+                        onchange="document.getElementById('iw_value').innerHTML = this.value;">
+            <datalist id="iw_values">
+                <option value="40">
+                <option value="41">
+                <option value="42">
+                <option value="43">
+                <option value="44">
+                <option value="45">
+                <option value="46">
+                <option value="47">
+                <option value="48">
+                <option value="49">
+                <option value="50">
+            </datalist>
         </p>
         <p>
-            IF:
-            <input type="text" name="IF" id="IF" required>
+            <label for="IF">Ток фокусировки электронного пучка (IF):</label><br>
+            <input type="range" name="IF" id="IF" value="141" min="125" max="160" step="1" required>
         </p>
         <p>
-            VW:
-            <input type="text" name="VW" id="VW" required>
+            <label for="VW"></label>Скорость сварки (VW):</label><br>
+            <input type="range" name="VW" id="VW" value="9" min="3" max="14" step="0.5" required>
         </p>
         <p>
-            FP:
-            <input type="text" name="FP" id="FP" required>
+            <label for="VW"></label>Расстояние до поверхности образца (FP):</label><br>
+            <input type="range" name="FP" id="FP" value="80" min="30" max="150" step="5" required>
         </p>
-
-        <input type="submit">
+        <hr>
+        <input type="submit" value="Получить прогноз">
     </fieldset>
 </form>
 
@@ -48,3 +62,4 @@
     <p>{{result}}</p>
 </div>
 {% endif %}
+
