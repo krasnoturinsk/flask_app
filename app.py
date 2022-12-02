@@ -3,14 +3,10 @@ import pandas as pd
 import flask
 from flask import render_template
 import pickle
-import sklearn
 from sklearn.ensemble import ExtraTreesRegressor
 
 app = flask.Flask(__name__, template_folder='templates')
 
-#@app.route('/', methods=['POST', 'GET'])
-
-#@app.route('/index', methods=['POST', 'GET'])
 @app.route('/', methods=['POST', 'GET'])
 def main():
     # если запрс без передачи параметров из формы
@@ -36,20 +32,18 @@ def main():
         welding_params.append(float(flask.request.form['VW']))
         # расстояние от поверхности образцов до электронно-оптической системы
         welding_params.append(float(flask.request.form['FP']))
-
-        welding_params = [[44.0, 146.0, 9.0, 60.0],]
-
+        
         # формируем датафрейм из признаков
-        X = pd.DataFrame(welding_params, columns=X_columns)
+        X = pd.DataFrame([welding_params], columns=X_columns)
 
         # получаем предсказания модели
         predictions = loaded_model.predict(X)
+        y = pd.DataFrame(predictions, columns=y_columns)
 
-        y = pd.DataFrame(predictions, y_columns)
+        width = round(y.Width.values[0], 3)
+        depth = round(y.Depth.values[0], 3)
         
-        return render_template('main.html', result = y.values)
+        return render_template('main.html', result = f'Ширина: {width}, Глубина: {depth}')
 
 if __name__ == '__main__':
     app.run(debug=True)
-            
-            

@@ -14,11 +14,19 @@ data = [[44.0, 146.0, 9.0, 60.0],]
 
 # формируем датафрейм с данными для модели
 X = pd.DataFrame(data, columns=X_columns)
-print('X data:\n', X)
-print()
 
 # получаем предсказания модели
 predictions = loaded_model.predict(X)
 y = pd.DataFrame(predictions, columns=y_columns)
-print('y predictions:\n', y)
-print()
+
+print(f'''
+Технические параметры сварки:
+    Расстояние до поверхности образца (FP):  {X.FP.values[0]}
+    Ток фокусировки электронного пучка (IF):  {X.IF.values[0]}
+    Величина сварочного тока (IW):  {X.IW.values[0]}
+    Скорость сварки (VW):  {X.VW.values[0]}
+
+Прогнозируемые параметры саврного шва:
+    Глубина шва:  {y.Depth.values[0]:.2f}
+    Ширина шва:  {y.Width.values[0]:.2f}
+''')
