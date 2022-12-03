@@ -1,3 +1,4 @@
+# тест работы модели в консольном приложении
 import pandas as pd
 import pickle
 from sklearn.ensemble import ExtraTreesRegressor

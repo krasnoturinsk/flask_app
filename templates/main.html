@@ -1,65 +1,140 @@
 <!DOCTYPE html>
-<style>
-    form {
-        margin: 50px auto;
-        width: 35%;
-    }
-    form legend {
-        margin: 20px auto;
-    }
-    .result {
-        margin: 50px auto;
-        width: 35%;
-        /*border: 1px solid #ccc;*/
-    }
-</style>
-
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прогноз параметров сварного шва</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        form {
+            margin: 50px auto;
+            width: 35%;
+            min-width: 480px;
+        }
+        form legend {
+            margin: 20px auto;
+            font-weight: bold;
+            font-size: larger;
+        }
+        form .input {
+            margin-bottom: 25px;
+        }
+        fieldset {
+            padding: 0 25px;
+        }
+        #iw_value,
+        #if_value,
+        #vw_value,
+        #fp_value {
+            border: solid 1px #ccc;
+            padding: 2px 10px 0 10px;
+            vertical-align: 5px;
+            background-color: #777;
+            color: #fff;
+        }
+        input#IW,
+        input#IF,
+        input#VW,
+        input#FP {
+            width: 80%;
+        }
+        div.submit.button {
+            text-align: center;
+            margin: 25px auto;
+        }
+        #predict_btn {
+            font-weight: bold;
+            padding: 5px 10px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
+<body>
 
-<form action="{{url_for('main')}}" method="POST">
-    <fieldset>
-        <legend> Технические параметры сварки </legend>
-        <p>
-            <label for="IW">Величина сварочного тока (IW):</label> <b><span id="iw_value">45</span></b><br>
-            <input type="range" name="IW" id="IW" value="45" min="40" max="50" step="1" list="iw_values" required
-                        onchange="document.getElementById('iw_value').innerHTML = this.value;">
-            <datalist id="iw_values">
-                <option value="40">
-                <option value="41">
-                <option value="42">
-                <option value="43">
-                <option value="44">
-                <option value="45">
-                <option value="46">
-                <option value="47">
-                <option value="48">
-                <option value="49">
-                <option value="50">
-            </datalist>
-        </p>
-        <p>
-            <label for="IF">Ток фокусировки электронного пучка (IF):</label><br>
-            <input type="range" name="IF" id="IF" value="141" min="125" max="160" step="1" required>
-        </p>
-        <p>
-            <label for="VW"></label>Скорость сварки (VW):</label><br>
-            <input type="range" name="VW" id="VW" value="9" min="3" max="14" step="0.5" required>
-        </p>
-        <p>
-            <label for="VW"></label>Расстояние до поверхности образца (FP):</label><br>
-            <input type="range" name="FP" id="FP" value="80" min="30" max="150" step="5" required>
-        </p>
-        <hr>
-        <input type="submit" value="Получить прогноз">
-    </fieldset>
-</form>
+    <form action="{{url_for('main')}}" method="POST">
+        <fieldset>
+            <legend> Технические параметры сварки </legend>
+            <div class="input iw">
+                <label for="IW">Величина сварочного тока (<strong>IW</strong>):</label><br>
+                <input type="range" name="IW" id="IW"
+                value="{% if result %}{{result.iw_value}}{% else %}45{% endif %}"
+                min="42" max="50" step="1" list="iw_values" required
+                onchange="document.getElementById('iw_value').innerHTML = this.value;"
+                >&nbsp;<span id="iw_value">{% if result %}{{result.iw_value}}{% else %}45{% endif %}</span>
+                <datalist id="iw_values">
+                    <option value="42"><option value="43"><option value="44">
+                    <option value="45"><option value="46"><option value="47">
+                    <option value="48"><option value="49"><option value="50">
+                </datalist>
+            </div>
+            <div class="input if">
+                <label for="IF">Ток фокусировки электронного пучка (<strong>IF</strong>):</label><br>
+                <input type="range" name="IF" id="IF"
+                value="{% if result %}{{result.if_value}}{% else %}141{% endif %}"
+                min="130" max="151" step="1" list="if_values" required
+                onchange="document.getElementById('if_value').innerHTML = this.value;"
+                >&nbsp;<span id="if_value">{% if result %}{{result.if_value}}{% else %}141{% endif %}</span>
+                <datalist id="if_values">
+                    <option value="130"><option value="131"><option value="132">
+                    <option value="133"><option value="134"><option value="135">
+                    <option value="136"><option value="137"><option value="138">
+                    <option value="139"><option value="140"><option value="141">
+                    <option value="142"><option value="143"><option value="144">
+                    <option value="145"><option value="146"><option value="147">
+                    <option value="148"><option value="149"><option value="150">
+                    <option value="151">
+                </datalist>
+            </div>
+            <div class="input vw">
+                <label for="VW"></label>Скорость сварки (<strong>VW</strong>):</label><br>
+                <input type="range" name="VW" id="VW"
+                value="{% if result %}{{result.vw_value}}{% else %}9{% endif %}"
+                min="4.0" max="12.5" step="0.5" list="vw_values" required
+                onchange="document.getElementById('vw_value').innerHTML = this.value;"
+                >&nbsp;<span id="vw_value">{% if result %}{{result.vw_value}}{% else %}9{% endif %}</span>
+                <datalist id="vw_values">
+                    <option value="4.0"><option value="4.5"><option value="5.0">
+                    <option value="5.5"><option value="6.0"><option value="6.5">
+                    <option value="7.0"><option value="7.5"><option value="8.0">
+                    <option value="8.5"><option value="9.0"><option value="9.5">
+                    <option value="10.0"><option value="10.5"><option value="11.0">
+                    <option value="11.5"><option value="12.0"><option value="12.5">
+                </datalist>
+            </div>
+            <div class="input fp">
+                <label for="FP"></label>Расстояние до поверхности образца (<strong>FP</strong>):</label><br>
+                <input type="range" name="FP" id="FP"
+                value="{% if result %}{{result.fp_value}}{% else %}90{% endif %}"
+                min="50" max="125" step="5" list="fp_values" required
+                onchange="document.getElementById('fp_value').innerHTML = this.value;"
+                >&nbsp;<span id="fp_value">{% if result %}{{result.fp_value}}{% else %}90{% endif %}</span>
+                <datalist id="fp_values">
+                    <option value="50"><option value="55"><option value="60">
+                    <option value="65"><option value="70"><option value="75">
+                    <option value="80"><option value="85"><option value="90">
+                    <option value="95"><option value="100"><option value="105">
+                    <option value="110"><option value="115"><option value="120">
+                    <option value="125">
+                </datalist>
+            </div>
 
-{% if result %}
-<div class="result">
-    <p>Прогнозируемые размеры шва:</p>
-    <p>{{result}}</p>
-</div>
-{% endif %}
+            <div class="submit button">
+                <input type="submit" name="predict_btn" id="predict_btn" value="Получить прогноз">
+            </div>
 
+            {% if result %}
+            <div class="result">
+                <p><strong>Прогнозируемые размеры сварного шва:</strong></p>
+                <p>Ширина шва: <strong>{{result.width}}</strong> мм</p>
+                <p>Глубина шва: <strong>{{result.depth}}</strong> мм</p>
+            </div>
+            {% endif %}
+
+        </fieldset>
+    </form>
+    
+</body>
+</html>
